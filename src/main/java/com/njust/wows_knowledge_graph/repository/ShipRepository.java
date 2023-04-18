@@ -6,6 +6,7 @@ import org.neo4j.driver.internal.value.PathValue;
 import org.neo4j.driver.types.Relationship;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.neo4j.repository.query.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,6 +16,6 @@ public interface ShipRepository extends Neo4jRepository<Ship, String> {
 
     Ship findFirstByName(String name);
 
-    @Query(value = "match p=(s:Country)-[r:buildIn]-() where s.name={0} return p")
-    List<PathValue> getRelationshipByName(String name);
+    @Query(value = "match p=(s:Country)-[r:buildIn]-() where s.name=$name return p")
+    List<PathValue> getRelationshipByName(@Param("name") String name);
 }
