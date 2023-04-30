@@ -22,7 +22,7 @@ public class Input implements Comparable<Input>{
     @TargetNode
     private DiagnosisAlgorithm diagnosisAlgorithm;
 
-    private int weigh;
+    private float weigh;
     private String componentName;
 
      @Override

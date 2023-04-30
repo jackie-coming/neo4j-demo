@@ -22,7 +22,7 @@ public class Have implements Comparable<Have> {
     @TargetNode
     private Feature feature;
 
-    private int weigh;
+    private float weigh;
 
     @Override
     public int compareTo(Have o) {

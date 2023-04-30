@@ -60,7 +60,7 @@ public class FeatureService {
         Feature feature = featureRepository.findFirstByName(featureName);
         DiagnosisAlgorithm diagnosisAlgorithm = diagnosisAlgorithmRepository.findFirstByName(diagnosisAlgorithmName);
 
-        int w =0;
+        float w = (float)0;
         Long id = (long)0;
         for (Input b : feature.getInput()){
             if (b.getDiagnosisAlgorithm().getName().equals(diagnosisAlgorithmName)){

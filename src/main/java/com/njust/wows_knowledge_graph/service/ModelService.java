@@ -15,9 +15,7 @@ import com.njust.wows_knowledge_graph.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ModelService {
@@ -68,23 +66,48 @@ public class ModelService {
         Model model = modelRepository.findFirstByName(modelName);
         Component component = componentRepository.findFirstByName(componentName);
 
-        int w =0;
+        float w =0;
+        float faultRate =0;
         Long id = (long)0;
         for (ConsistOf b : model.getConsistOf()){
 
             if (b.getComponent().getName().equals(componentName)){
                w = b.getWeigh();
                id = b.getId();
+                faultRate= b.getFaultRate();
             }
         }
         w+=1;
-        model.getConsistOf().add(ConsistOf.builder().id(id).component(component).weigh(w).build());
+        model.getConsistOf().add(ConsistOf.builder().id(id).faultRate(faultRate).component(component).weigh(w).build());
         return modelRepository.save(model);
     }
     public List<String> getComponentNamesSortByWeigh(String modelName){
         Model model = modelRepository.findFirstByName(modelName);
-
         List<ConsistOf> consistOfs = model.getConsistOf();
+
+        float[] faultRates = new float[consistOfs.size()+1];
+        int i = 0;
+        for (ConsistOf consistOf : consistOfs){
+            faultRates[i]=consistOf.getFaultRate();
+            i++;
+        }
+        HashMap<Float, Float>faultRatesMp = ConsistOf.normalize4Scale(faultRates);
+
+        float[] weighs = new float[consistOfs.size()+1];
+        int j = 0;
+        for (ConsistOf consistOf : consistOfs){
+            weighs[j]=consistOf.getWeigh();
+            j++;
+        }
+        HashMap<Float, Float> weighsMp = ConsistOf.normalize4Scale(weighs);
+
+        for (ConsistOf consistOf : consistOfs){
+           float w = weighsMp.get(consistOf.getWeigh());
+           w+=faultRatesMp.get(consistOf.getFaultRate());
+
+           consistOf.setWeigh(w);
+        }
+
         Collections.sort(consistOfs);
         List<String> componentNames = new ArrayList<>();
         for (ConsistOf consistOf : consistOfs){
@@ -92,5 +115,6 @@ public class ModelService {
         }
         return componentNames;
     }
+
 
 }

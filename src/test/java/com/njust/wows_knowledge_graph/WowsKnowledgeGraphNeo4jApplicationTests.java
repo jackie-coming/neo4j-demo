@@ -84,7 +84,8 @@ class WowsKnowledgeGraphNeo4jApplicationTests {
                     case 3:{
                         String[] s = line.split("-");
                         String[] subs= s[1].split("i");
-                        modelService.addConsistOfRelationship(s[0], s[2], Integer.parseInt(subs[0]),Float.parseFloat(subs[1]));
+
+                        modelService.addConsistOfRelationship(s[0], s[2],Integer.parseInt(subs[0]),Float.parseFloat(subs[1]));
                         break;
                     }
                     case 4:{

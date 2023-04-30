@@ -61,7 +61,7 @@ public class ComponentService {
     public Component addOneHaveRelationship(String componentlName, String featureName){
         Component component = componentRepository.findFirstByName(componentlName);
         Feature feature = featureRepository.findFirstByName(featureName);
-        int w =0;
+        float w =0;
         Long id = (long)0;
         for (Have b : component.getHave()){
             if (b.getFeature().getName().equals(featureName)){

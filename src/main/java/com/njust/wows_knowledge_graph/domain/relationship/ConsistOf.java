@@ -9,6 +9,9 @@ import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.RelationshipProperties;
 import org.springframework.data.neo4j.core.schema.TargetNode;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @RelationshipProperties
@@ -22,7 +25,7 @@ public class ConsistOf implements Comparable<ConsistOf> {
     @TargetNode
     private Component component;
 
-    private int weigh;
+    private float weigh;
 
     private float faultRate;
 
@@ -46,5 +49,46 @@ public class ConsistOf implements Comparable<ConsistOf> {
     @Override
     public int hashCode() {
         return Objects.hash(id, weigh);
+    }
+
+    /**
+     * 线性归一化 公式：X(norm) = (X - min) / (max - min)
+     *
+     * @param points 原始数据
+     * @return 归一化后的数据
+     */
+    public static HashMap<Float, Float> normalize4Scale(float[] points) {
+        if (points == null || points.length < 1) {
+            return null;
+        }
+        HashMap<Float, Float> map = new HashMap();
+        float maxV;
+        float minV;
+            maxV = maxV(points);
+            minV = minV(points);
+            for (int i = 0; i < points.length; i++) {
+                float res = maxV == minV ? minV : (points[i] - minV) / (maxV - minV);
+                map.put(points[i],res);
+            }
+        return map;
+    }
+
+    public static float maxV(float[] matrixJ) {
+        float v = matrixJ[0];
+        for (int i = 0; i < matrixJ.length; i++) {
+            if (matrixJ[i] > v) {
+                v = matrixJ[i];
+            }
+        }
+        return v;
+    }
+    public static float minV(float[] matrixJ) {
+        float v = matrixJ[0];
+        for (int i = 0; i < matrixJ.length; i++) {
+            if (matrixJ[i] < v) {
+                v = matrixJ[i];
+            }
+        }
+        return v;
     }
 }
