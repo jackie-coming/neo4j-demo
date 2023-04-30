@@ -74,13 +74,31 @@ public class ModelService {
             if (b.getComponent().getName().equals(componentName)){
                w = b.getWeigh();
                id = b.getId();
-                faultRate= b.getFaultRate();
+               faultRate= b.getFaultRate();
             }
         }
         w+=1;
         model.getConsistOf().add(ConsistOf.builder().id(id).faultRate(faultRate).component(component).weigh(w).build());
         return modelRepository.save(model);
     }
+    public Model updateFaultRateConsistOfRelationship(String modelName, String componentName,float faultRate){
+        Model model = modelRepository.findFirstByName(modelName);
+        Component component = componentRepository.findFirstByName(componentName);
+
+        float w =0;
+        Long id = (long)0;
+        for (ConsistOf b : model.getConsistOf()){
+
+            if (b.getComponent().getName().equals(componentName)){
+                w = b.getWeigh();
+                id = b.getId();
+            }
+        }
+        model.getConsistOf().add(ConsistOf.builder().id(id).faultRate(faultRate).component(component).weigh(w).build());
+        return modelRepository.save(model);
+    }
+
+
     public List<String> getComponentNamesSortByWeigh(String modelName){
         Model model = modelRepository.findFirstByName(modelName);
         List<ConsistOf> consistOfs = model.getConsistOf();

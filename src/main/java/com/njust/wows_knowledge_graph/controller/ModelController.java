@@ -58,6 +58,15 @@ public class ModelController {
         return modelService.addOneConsistOfRelationship(modelName, componentName);
     }
 
+    @PostMapping("/update_faultRate_consist_of_relationship")
+    public Model addOneConsistOfRelationship(
+            @RequestParam("modelName")String modelName,
+            @RequestParam("componentName")String componentName,
+            @RequestParam("faultRate")float faultRate)
+    {
+        return modelService.updateFaultRateConsistOfRelationship(modelName, componentName,faultRate);
+    }
+
     @GetMapping("/get_component_names_sort_by_weigh")
     public List<String> getComponentNamesSortByWeigh(@RequestParam("name")String name){
         return modelService.getComponentNamesSortByWeigh(name);
