@@ -47,16 +47,20 @@ public class ModelService {
 //        countryRepository.delete(getCountryByName(name));
 //
 
-    public Model addConsistOfRelationship( String modelName, String componentName,int weigh){
+    public Model addConsistOfRelationship( String modelName, String componentName,int weigh,float faultRate){
         Model model = modelRepository.findFirstByName(modelName);
         Component component = componentRepository.findFirstByName(componentName);
-
+        long id = (long) 0;
         for (ConsistOf b : model.getConsistOf()){
             if (b.getComponent().getName().equals(componentName)){
-                return model;
+                id = b.getId();
             }
         }
-        model.getConsistOf().add(ConsistOf.builder().component(component).weigh(weigh).build());
+        if (id == (long)0){
+            model.getConsistOf().add(ConsistOf.builder().component(component).weigh(weigh).faultRate(faultRate).build());
+        }else{
+            model.getConsistOf().add(ConsistOf.builder().id(id).component(component).faultRate(faultRate).weigh(weigh).build());
+        }
         return modelRepository.save(model);
     }
 

@@ -47,7 +47,7 @@ public class ModelController {
             @RequestParam("modelName")String modelName,
             @RequestParam("componentName")String componentName,
             @RequestParam("weigh")int weigh){
-        return modelService.addConsistOfRelationship(modelName, componentName, weigh);
+        return modelService.addConsistOfRelationship(modelName, componentName, weigh,0);
     }
 
     @PostMapping("/add_one_consist_of_relationship")

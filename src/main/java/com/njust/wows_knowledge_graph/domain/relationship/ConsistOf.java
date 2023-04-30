@@ -24,6 +24,8 @@ public class ConsistOf implements Comparable<ConsistOf> {
 
     private int weigh;
 
+    private float faultRate;
+
     @Override
     public int compareTo(ConsistOf o) {
         if (this.weigh>o.weigh) return -1 ;
