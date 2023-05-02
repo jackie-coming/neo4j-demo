@@ -7,7 +7,7 @@ import lombok.Data;
 import org.springframework.data.neo4j.core.schema.*;
 
 
-
+@RelationshipProperties
 @Data
 @Builder
 public class IsType {
