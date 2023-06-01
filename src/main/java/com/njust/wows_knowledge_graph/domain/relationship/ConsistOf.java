@@ -73,6 +73,12 @@ public class ConsistOf implements Comparable<ConsistOf> {
         return map;
     }
 
+    //解释以下代码的意思
+    //1.首先定义一个float类型的数组matrixJ，长度为3
+    //2.然后定义一个float类型的变量v，初始值为matrixJ[0]
+    //3.然后遍历matrixJ数组，如果matrixJ[i]大于v，则v等于matrixJ[i]
+    //4.最后返回v
+
     public static float maxV(float[] matrixJ) {
         float v = matrixJ[0];
         for (int i = 0; i < matrixJ.length; i++) {
